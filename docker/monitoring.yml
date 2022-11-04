@@ -1,0 +1,123 @@
+version: '3'
+services:
+
+  node-exporter:
+    image: prom/node-exporter:v1.4.0
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    container_name: node-exporter
+    hostname: node-exporter
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --collector.filesystem.ignored-mount-points
+      - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    ports:
+      - 9100:9100
+    expose:
+      - 9100
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Moscow"
+    labels:
+      org.label-schema.group: "monitoring"
+    networks:
+      docker:
+        ipv4_address: 10.5.0.22
+        aliases:
+          - node-exporter
+
+  prometheus:
+    image: prom/prometheus:v2.39.1
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    container_name: prometheus
+    hostname: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      docker:
+        ipv4_address: 10.5.0.23
+        aliases:
+          - prometheus
+
+  grafana:
+    image: grafana/grafana:9.2.3
+    user: root
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    container_name: grafana
+    hostname: grafana
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Moscow"
+    networks:
+      docker:
+        ipv4_address: 10.5.0.24
+        aliases:
+          - grafana
+
+  alertmanager-bot:
+    image: metalmatze/alertmanager-bot:0.4.3
+    user: root
+    command:
+      - --alertmanager.url=http://alertmanager:9093
+      - --log.level=info
+      - --store=bolt
+      - --bolt.path=/data/bot.db
+      - --telegram.admin=${TELEGRAM_ADMIN}
+      - --telegram.token=${TELEGRAM_TOKEN}
+    ports:
+      - 8080:8080
+    container_name: alertmanager-bot
+    hostname: alertmanager-bot
+    environment:
+      TZ: "Europe/Moscow"
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    networks:
+      docker:
+        ipv4_address: 10.5.0.25
+        aliases:
+          - alertmanager-bot
+
+  alertmanager:
+    image: prom/alertmanager:v0.21.0
+    user: root
+    ports:
+      - 127.0.0.1:9093:9093
+    volumes:
+      - ./alertmanager/:/etc/alertmanager/
+    container_name: alertmanager
+    hostname: alertmanager
+    environment:
+      TZ: "Europe/Moscow"
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/etc/alertmanager/data'
+    networks:
+      docker:
+        ipv4_address: 10.5.0.26
+        aliases:
+          - alertmanager
+
+networks:
+  docker:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
