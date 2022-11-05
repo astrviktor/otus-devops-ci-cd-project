@@ -3,7 +3,9 @@ Creating continuous delivery process for applications using CI/CD practices and 
 
 Техническое задание:
 
-...
+https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/specification.md
+
+https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/project.pdf
 
 Общий план:
 1. Обеспечить работоспособность сервисов в Docker
@@ -17,7 +19,7 @@ Creating continuous delivery process for applications using CI/CD practices and 
 ### Реализация:
 1. Обеспечить работоспособность сервисов в Docker
 
-CHANGELOG: ./docker/README.md
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/docker/README.md
 
 ```
 # Запуск базовых сервисов
@@ -82,7 +84,7 @@ make compose-services-all-down
 
 3. Поднять Gitlab и Gitlab-runner в Yandex Cloud
 
-CHANGELOG: ./gitlab/README.md
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/gitlab/README.md
 
 
 - Работа с gitlab локально
