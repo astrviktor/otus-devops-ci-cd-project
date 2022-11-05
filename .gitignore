@@ -1,3 +1,4 @@
 /docker-helper-monitoring/.env
 /docker/.env
 /.idea/
+/gitlab/gitlab_home/
