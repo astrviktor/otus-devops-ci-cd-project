@@ -2,3 +2,10 @@
 /docker/.env
 /.idea/
 /gitlab/gitlab_home/
+/infra/packer/bin/
+/infra/packer/rabbitmq/key.json
+/infra/packer/mongodb/key.json
+/infra/packer/kubernetes/key.json
+/infra/terraform/bin/
+/infra/terraform/mongodb/.terraform.lock.hcl
+/infra/terraform/mongodb/main.tf
