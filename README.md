@@ -82,9 +82,25 @@ http://127.0.0.1:3000
 make compose-services-all-down
 ```
 
+Пересборка сервисов
+
+```
+docker login
+
+export USER_NAME=astrviktor
+export SEARCH_ENGINE_VERSION=0.1.0
+
+cd ./docker/search_engine_crawler && bash docker_build.sh && \
+  docker push $USER_NAME/search_engine_crawler:$SEARCH_ENGINE_VERSION
+  
+cd ../search_engine_ui && bash docker_build.sh && \
+  docker push $USER_NAME/search_engine_ui:$SEARCH_ENGINE_VERSION
+```
+
+
 3. Поднять Gitlab и Gitlab-runner в Yandex Cloud
 
-CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/gitlab/README.md
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/gitlab/README.md
 
 
 - Работа с gitlab локально
