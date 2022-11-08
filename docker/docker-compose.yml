@@ -13,8 +13,11 @@ services:
           - mongodb
 
   rabbitmq:
-    image: rabbitmq:3.9.21-alpine
+    image: rabbitmq:3.11.2-management-alpine
     container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
     volumes:
       - volume_search_engine_rabbitmq:/var/lib/rabbitmq
     environment:

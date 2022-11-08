@@ -157,4 +157,25 @@ http://51.250.87.143:8080/admin/runners
 
 6.Имеем работающий инстанс с gitlab
 
+Update 2022-11-08:
+При сборке docker образов начали возникать ошибки
 
+```
+error during connect: Post "http://docker:2375/v1.24/auth": dial tcp: lookup docker: Try again
+```
+
+Нужно добавить настройку:
+
+```
+ssh -i ~/.ssh/ubuntu ubuntu@158.160.38.135
+
+sudo nano ./gitlab/gitlab-runner/config.toml
+
+volumes = ["/var/run/docker.sock:/var/run/docker.sock", "/cache"]
+
+sudo docker stop gitlab-runner
+sudo docker rm gitlab-runner
+sudo docker-compose up -d
+```
+
+https://serverfault.com/questions/1052496/docker-login-to-aws-ecr-from-gitlab-ci-fails-with-dial-tcp-lookup-docker-on-x

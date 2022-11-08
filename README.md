@@ -13,7 +13,10 @@ https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/project
 3. Поднять Gitlab и Gitlab-runner в Yandex Cloud
 4. Поднять VM для Kubernetes, VM для MongoDB, VM для RabbitMQ в Yandex Cloud
 5. Настроить манифесты сервисов для Kubernetes для проверки локально через Minikube
-6. Настроить пайплайны в Gitlab развертывани инфраструктуры и деплоя в Kubernetes
+6. Настроить пайплайны в Gitlab для тестов и сборки сервисов
+7. Настроить чарты сервисов для Kubernetes для проверки локально через Minikube
+8. Настроить пайплайны в Gitlab развертывани инфраструктуры и деплоя в Kubernetes
+9. Сделать презентацию
 
 
 ### Реализация:
@@ -192,3 +195,11 @@ yc compute instance create \
 
 ssh -i ~/.ssh/ubuntu ubuntu@<EXTERNAL IP>
 ```
+
+5. Настроить манифесты сервисов для Kubernetes для проверки локально через Minikube
+
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/kubernetes/README.md
+
+Настроены манифесты и произведена проверка работоспособности сервисов в Kubernetes
+
+Дальше манифесты можно использовать как основу для чартов
