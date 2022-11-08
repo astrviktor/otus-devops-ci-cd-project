@@ -1,0 +1,59 @@
+
+stages:
+  - testing
+  - build
+  - deploy:stage
+  - deploy:prod
+
+
+test:
+  stage: testing
+  image: python:3.6-alpine
+  script:
+    - pip install -r requirements.txt -r requirements-test.txt
+    - python -m unittest discover -s tests/ 
+
+
+report:
+  stage: testing
+  image: python:3.6-alpine
+  script:
+    - pip install -r requirements.txt -r requirements-test.txt
+    - coverage run -m unittest discover -s tests/ 
+    - coverage report --include ui/ui.py
+
+
+build:
+  stage: build
+  image: docker:20.10.16 #docker:19.03.12 docker:latest
+  when: manual
+  services:
+    - docker:20.10.16-dind #docker:19.03.12-dind docker:dind
+  #variables:
+  #  DOCKER_HOST: tcp://docker:2375
+  #  DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - echo -n $DOCKER_REGISTRY_PASS | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
+  script:
+    - docker build -t $DOCKER_REGISTRY_USER/search_engine_ui:0.0.$CI_PIPELINE_ID .
+    - docker images
+    - docker push $DOCKER_REGISTRY_USER/search_engine_ui:0.0.$CI_PIPELINE_ID
+
+
+deploy_stage:
+  stage: deploy:stage
+  image: python:3.6-alpine
+  when: manual
+  script: echo "Define your deployment script!"
+  environment: stage
+
+
+deploy_prod:
+  stage: deploy:prod
+  image: python:3.6-alpine
+  when: manual
+  script: echo "Define your deployment script!"
+  environment: prod
+  only:
+    refs:
+      - tags

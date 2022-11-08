@@ -203,3 +203,10 @@ CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/k
 Настроены манифесты и произведена проверка работоспособности сервисов в Kubernetes
 
 Дальше манифесты можно использовать как основу для чартов
+
+6. Настроить пайплайны в Gitlab для тестов и сборки сервисов
+
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/kubernetes/README.md
+
+Настроены пайплайны для gitlab для тестов и сборки, а дальнейшем будет добавлен для деплоя
+
