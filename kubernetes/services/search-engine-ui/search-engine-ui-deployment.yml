@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: # Блок метаданных деплоя
+  name: search-engine-ui
+  labels:
+    app: search-engine
+    component: search-engine-ui
+spec: # Блок спецификации деплоя
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine
+      component: search-engine-ui
+  template: # Блок описания POD-ов
+    metadata:
+      name: search-engine-ui
+      labels:
+        app: search-engine
+        component: search-engine-ui
+    spec:
+      containers:
+        - image: astrviktor/search_engine_ui:0.1.0 # Не забудьте подставить свой образ
+          name: search-engine-ui
+          env:
+            - name: MONGO
+              value: "mongodb"
+            - name: MONGO_PORT
+              value: "27017"
+
+#        env:
+#        - name: ENV
+#          valueFrom:
+#            fieldRef:
+#              fieldPath: metadata.namespace
+
+

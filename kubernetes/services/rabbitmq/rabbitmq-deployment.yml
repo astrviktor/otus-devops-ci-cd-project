@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: search-engine
+    component: rabbitmq
+#    post-db: "true"
+#    comment-db: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine
+      component: rabbitmq
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: search-engine
+        component: rabbitmq
+#        post-db: "true"
+#        comment-db: "true"
+    spec:
+      containers:
+        - image: rabbitmq:3.11.2-management-alpine
+          name: rabbitmq
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: rabbit_user0
+            - name: RABBITMQ_DEFAULT_PASS
+              value: rabbit_pass0
+          volumeMounts:
+            - name: rabbitmq-persistent-storage
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-persistent-storage
+          emptyDir: {}
+#          volumeMounts:
+#            - name: mongo-gce-pd-storage
+#              mountPath: /data/db
+#      volumes:
+#        - name: mongo-gce-pd-storage
+#          persistentVolumeClaim:
+#            claimName:  mongo-pvc
+
+#    image: rabbitmq:3.11.2-management-alpine
+#    container_name: rabbitmq
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+#    volumes:
+#      - volume_search_engine_rabbitmq:/var/lib/rabbitmq
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+#      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
