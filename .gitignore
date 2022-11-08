@@ -9,3 +9,5 @@
 /infra/terraform/bin/
 /infra/terraform/mongodb/.terraform.lock.hcl
 /infra/terraform/mongodb/main.tf
+/gitlab-repos/search_engine_crawler/..git/
+/gitlab-repos/search_engine_ui/..git/
