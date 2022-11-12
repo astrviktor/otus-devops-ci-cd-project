@@ -28,43 +28,76 @@ minikube delete
 
 ```
 # Создание namespace
-kubectl apply -f ./kubernetes/services/namespaces/production-namespace.yml
+kubectl apply -f ./kubernetes/services/namespaces/
 
 # Развертывание mongodb
-kubectl apply -n production -f ./kubernetes/services/mongodb/mongodb-deployment.yml
-kubectl apply -n production -f ./kubernetes/services/mongodb/mongodb-service.yml
+kubectl apply -n search-engine -f ./kubernetes/services/search-engine/mongodb/
 
 # Развертывание rabbitmq
-kubectl apply -n production -f ./kubernetes/services/rabbitmq/rabbitmq-deployment.yml
-kubectl apply -n production -f ./kubernetes/services/rabbitmq/rabbitmq-service.yml
+kubectl apply -n search-engine -f ./kubernetes/services/search-engine/rabbitmq/
 
 
 # Развертывание search-engine-crawler
-kubectl apply -n production -f ./kubernetes/services/search-engine-crawler/search-engine-crawler-deployment.yml
-kubectl apply -n production -f ./kubernetes/services/search-engine-crawler/search-engine-crawler-service.yml
-
+kubectl apply -n search-engine -f ./kubernetes/services/search-engine/search-engine-crawler/
 
 # Развертывание search-engine-ui
-kubectl apply -n production -f ./kubernetes/services/search-engine-ui/search-engine-ui-deployment.yml
-kubectl apply -n production -f ./kubernetes/services/search-engine-ui/search-engine-ui-service.yml
+kubectl apply -n search-engine -f ./kubernetes/services/search-engine/search-engine-ui/
 
 # Проверка
-kubectl get pods --selector component=search-engine-ui -n production
-kubectl port-forward search-engine-ui-98dd5bd46-vzzzv 8080:8000 -n production
+kubectl get pods --selector component=search-engine-ui -n search-engine
+kubectl port-forward search-engine-ui-98dd5bd46-vzzzv 8080:8000 -n search-engine
 
 # Логи подов
-kubectl get pods -n production
-kubectl logs pod-name -n production
+kubectl get pods -n search-engine
+kubectl logs pod-name -n search-engine
 ```
 
-3.Установка helm3
+3.Создание манифестов для логирования
+
+https://medium.com/avmconsulting-blog/how-to-deploy-an-efk-stack-to-kubernetes-ebc1b539d063
+
+```
+# Развертывание elasticsearch
+kubectl apply -n logging -f ./kubernetes/services/logging/elasticsearch/
+
+# Развертывание kibana
+kubectl apply -n logging -f ./kubernetes/services/logging/kibana/
+
+# Развертывание fluentd
+kubectl apply -n logging -f ./kubernetes/services/logging/fluentd/
+
+```
+
+4.Создание манифестов для мониторинга
+
+https://devopscube.com/node-exporter-kubernetes/
+
+```
+# Развертывание node-exporter
+kubectl apply -n monitoring -f ./kubernetes/services/monitoring/node-exporter
+
+# Развертывание prometheus
+kubectl apply -n monitoring -f ./kubernetes/services/monitoring/prometheus
+
+# Развертывание grafana
+kubectl apply -n monitoring -f ./kubernetes/services/monitoring/grafana
+
+# Развертывание alertmanager
+kubectl apply -n monitoring -f ./kubernetes/services/monitoring/alertmanager
+
+# Развертывание alertmanager-bot
+kubectl apply -n monitoring -f ./kubernetes/services/monitoring/alertmanager-bot
+
+```
+
+5.Установка helm3
 
 ...
 
-4.Создание чартов для сервисов
+6.Создание чартов для сервисов
 
 ...
 
-5.Проверка локально
+7.Проверка чартов локально
 
 ...
