@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager-bot
+  labels:
+    app: monitoring
+    component: alertmanager-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoring
+      component: alertmanager-bot
+  template:
+    metadata:
+      name: alertmanager-bot
+      labels:
+        app: monitoring
+        component: alertmanager-bot
+    spec:
+      containers:
+        - image: metalmatze/alertmanager-bot:0.4.3
+          name: alertmanager-bot
+          args:
+#            - --alertmanager.url=$ALERTMANAGER_URL
+#            - --log.level=info
+#            - --store=bolt
+#            - --bolt.path=/data/bot.db
+#            - --telegram.admin=$TELEGRAM_ADMIN
+#            - --telegram.token=$TELEGRAM_TOKEN
+            - --alertmanager.url=http://alertmanager:9093
+            - --log.level=info
+            - --store=bolt
+            - --bolt.path=/data/bot.db
+            - --telegram.admin=1234567
+            - --telegram.token=123345565656:gfdsgfgsdfgtsfgfgsgfg
+          env:
+            - name: TZ
+              value: "Europe/Moscow"
+          volumeMounts:
+            - name: alertmanager-bot-data
+              mountPath: /data
+      volumes:
+        - name: alertmanager-bot-data
+          emptyDir: {}
+

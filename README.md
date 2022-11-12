@@ -1,6 +1,8 @@
 # otus-devops-ci-cd-project
 Creating continuous delivery process for applications using CI/CD practices and rapid feedback
 
+Создание процесса непрерывной поставки для приложения с применением практик CI/CD и быстрой обратной связью
+
 Техническое задание:
 
 https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/specification.md
@@ -14,7 +16,7 @@ https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/project
 4. Поднять VM для Kubernetes, VM для MongoDB, VM для RabbitMQ в Yandex Cloud
 5. Настроить манифесты сервисов для Kubernetes для проверки локально через Minikube
 6. Настроить пайплайны в Gitlab для тестов и сборки сервисов
-7. Настроить чарты сервисов для Kubernetes для проверки локально через Minikube
+7. Настроить манифесты для мониторинга и логирования в Kubernetes для проверки локально через Minikube
 8. Настроить пайплайны в Gitlab развертывани инфраструктуры и деплоя в Kubernetes
 9. Сделать презентацию
 
@@ -206,7 +208,13 @@ CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/k
 
 6. Настроить пайплайны в Gitlab для тестов и сборки сервисов
 
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/gitlab-repos/README.md
+
+Настроены пайплайны для gitlab для тестов и сборки, в дальнейшем будет добавлен для деплоя
+
+7. Настроить манифесты для мониторинга и логирования в Kubernetes для проверки локально через Minikube
+
 CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/kubernetes/README.md
 
-Настроены пайплайны для gitlab для тестов и сборки, а дальнейшем будет добавлен для деплоя
+Добавлены манифесты для мониторинга и логирования, проверены локально
 

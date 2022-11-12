@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  labels:
+    app: monitoring
+    component: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoring
+      component: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: monitoring
+        component: grafana
+    spec:
+      containers:
+        - image: grafana/grafana:9.2.3
+          name: grafana
+          env:
+            - name: TZ
+              value: "Europe/Moscow"
+          volumeMounts:
+            - name: grafana
+              mountPath: /var/lib/grafana
+            - name: grafana-provisioning
+              mountPath: /etc/grafana/provisioning
+      volumes:
+        - name: grafana
+          emptyDir: {}
+        - name: grafana-provisioning
+          emptyDir: {}
+
+
+

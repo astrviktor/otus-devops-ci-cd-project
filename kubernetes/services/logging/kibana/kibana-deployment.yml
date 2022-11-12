@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  labels:
+    app: logging
+    component: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+      component: kibana
+  template:
+    metadata:
+      name: kibana
+      labels:
+        app: logging
+        component: kibana
+    spec:
+      containers:
+        - image: kibana:7.4.0
+          name: kibana
+

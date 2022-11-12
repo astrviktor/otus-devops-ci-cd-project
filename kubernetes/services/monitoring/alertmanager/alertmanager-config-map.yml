@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  namespace: monitoring
+data:
+  config.yml: |
+    route:
+      receiver: 'alertmanager-bot'
+    
+    receivers:
+      - name: 'alertmanager-bot'
+        webhook_configs:
+          - send_resolved: true
+            url: 'http://alertmanager-bot:8080'    
