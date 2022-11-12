@@ -41,17 +41,17 @@ echo "================= Creating Cluster ================="
 #  --kubernetes-version stable-1.25
 
 #kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version stable-1.25
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
 
 #sudo kubeadm init --pod-network-cidr=10.244.0.0/16 \
 #  --apiserver-advertise-address=158.160.39.105 \
 
-
 export KUBECONFIG=/etc/kubernetes/admin.conf
 echo "export KUBECONFIG=/etc/kubernetes/admin.conf" | sudo tee /etc/environment
 
-sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 #sudo kubectl taint nodes --all node-role.kubernetes.io/master-
-sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 #minikube addons enable ingress
 echo "================= Done ================="
+#sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+#sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+#sudo kubectl taint nodes --all node-role.kubernetes.io/control-plane-

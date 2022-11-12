@@ -1,0 +1,128 @@
+stages:
+  - Kubernetes Service
+  - RabbitMQ Service
+  - MongoDB Service
+  - Delete Services
+
+
+kubernetes-vm-create:
+  stage: Kubernetes Service
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: kubernetes
+    IMAGE_NAME: kubernetes-base-1668265646
+    SSH_KEY_UBUNTU: $SSH_KEY_UBUNTU
+  script:
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance create
+      --name $INSTANCE_NAME
+      --cores=4
+      --core-fraction=5
+      --memory=8
+      --preemptible
+      --create-boot-disk image-name=$IMAGE_NAME,size=25GB
+      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4,ipv4-address=192.168.10.20
+      --zone=ru-central1-a
+      --metadata serial-port-enable=1
+      --metadata ssh-keys="$SSH_KEY_UBUNTU"
+      --metadata-from-file user-data=./scripts/configure_k8s.sh
+    - sleep 30
+
+
+kubernetes-vm-delete:
+  stage: Delete Services
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: kubernetes
+  script:
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance delete
+      --name $INSTANCE_NAME
+    - sleep 30
+
+rabbitmq-vm-create:
+  stage: RabbitMQ Service
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: rabbitmq
+    IMAGE_NAME: rabbitmq-base-1667715239
+    SSH_KEY_UBUNTU: $SSH_KEY_UBUNTU
+  script:
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance create
+      --name $INSTANCE_NAME
+      --cores=2
+      --core-fraction=5
+      --memory=4
+      --preemptible
+      --create-boot-disk image-name=$IMAGE_NAME,size=20GB
+      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4
+      --zone=ru-central1-a
+      --metadata serial-port-enable=1
+      --metadata ssh-keys="$SSH_KEY_UBUNTU"
+    - sleep 30
+
+
+rabbitmq-vm-delete:
+  stage: Delete Services
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: rabbitmq
+  script:
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance delete
+      --name $INSTANCE_NAME
+    - sleep 30
+
+
+
+mongodb-vm-create:
+  stage: MongoDB Service
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: mongodb
+    IMAGE_NAME: mongodb-base-1667656805
+    SSH_KEY_UBUNTU: $SSH_KEY_UBUNTU
+  script:
+    - export instance_name="mongodb"
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance create
+      --name $INSTANCE_NAME
+      --cores=2
+      --core-fraction=5
+      --memory=4
+      --preemptible
+      --create-boot-disk image-name=$IMAGE_NAME,size=20GB
+      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4
+      --zone=ru-central1-a
+      --metadata serial-port-enable=1
+      --metadata ssh-keys="$SSH_KEY_UBUNTU"
+    - sleep 30
+
+
+mongodb-vm-delete:
+  stage: Delete Services
+  image: astrviktor/yc-cli:latest
+  when: manual  
+  variables:
+    INSTANCE_NAME: mongodb
+  script:
+    - export PATH="/root/yandex-cloud/bin:${PATH}"
+    - yc config set token $YANDEX_CLOUD_TOKEN
+    - yc compute instance delete
+      --name $INSTANCE_NAME
+    - sleep 30
+
+
+
+
