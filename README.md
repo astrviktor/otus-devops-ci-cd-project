@@ -17,8 +17,9 @@ https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/project
 5. Настроить манифесты сервисов для Kubernetes для проверки локально через Minikube
 6. Настроить пайплайны в Gitlab для тестов и сборки сервисов
 7. Настроить манифесты для мониторинга и логирования в Kubernetes для проверки локально через Minikube
-8. Настроить пайплайны в Gitlab развертывани инфраструктуры и деплоя в Kubernetes
-9. Сделать презентацию
+8. Настроить пайплайны в Gitlab развертывания инфраструктуры 
+9. Настроить пайплайны в Gitlab деплоя в Kubernetes
+10. Сделать презентацию
 
 
 ### Реализация:
@@ -217,4 +218,12 @@ CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/g
 CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/kubernetes/README.md
 
 Добавлены манифесты для мониторинга и логирования, проверены локально
+
+8. Настроить пайплайны в Gitlab развертывания инфраструктуры
+
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/gitlab-repos/README.md
+
+Добавлен Load Balancer в Yandex Cloud
+
+Добавлен репозиторий infra-cli для запуска VM в Yandex Cloud
 

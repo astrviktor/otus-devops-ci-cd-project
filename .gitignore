@@ -11,3 +11,4 @@
 /infra/terraform/mongodb/main.tf
 /gitlab-repos/search_engine_crawler/..git/
 /gitlab-repos/search_engine_ui/..git/
+/gitlab-repos/infra-cli/..git/
