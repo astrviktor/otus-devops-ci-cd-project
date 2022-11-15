@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-engine-ui-prod
+  labels:
+    app: search-engine-prod
+    component: search-engine-ui-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-prod
+      component: search-engine-ui-prod
+  template:
+    metadata:
+      name: search-engine-ui-prod
+      labels:
+        app: search-engine-prod
+        component: search-engine-ui-prod
+    spec:
+      containers:
+        - image: <IMAGE> #astrviktor/search_engine_ui:0.1.0
+          name: search-engine-ui-prod
+          env:
+            - name: MONGO
+              value: "mongodb-prod"
+            - name: MONGO_PORT
+              value: "27017"

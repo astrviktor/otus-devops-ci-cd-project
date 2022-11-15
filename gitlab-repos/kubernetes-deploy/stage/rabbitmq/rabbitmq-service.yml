@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-stage
+  labels:
+    app: search-engine-stage
+    component: rabbitmq-stage
+spec:
+  ports:
+    - port: 5672
+      protocol: TCP
+      targetPort: 5672
+      name: rabbit
+    - port: 15672
+      protocol: TCP
+      targetPort: 15672
+      name: rabbit-management
+  selector:
+    app: search-engine-stage
+    component: rabbitmq-stage

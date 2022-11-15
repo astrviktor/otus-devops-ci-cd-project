@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-stage
+  labels:
+    app: search-engine-stage
+    component: mongodb-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-stage
+      component: mongodb-stage
+  template:
+    metadata:
+      name: mongodb-stage
+      labels:
+        app: search-engine-stage
+        component: mongodb-stage
+    spec:
+      containers:
+        - image: mongo:3.2
+          name: mongodb
+          volumeMounts:
+            - name: mongodb-stage-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-stage-persistent-storage
+          emptyDir: {}

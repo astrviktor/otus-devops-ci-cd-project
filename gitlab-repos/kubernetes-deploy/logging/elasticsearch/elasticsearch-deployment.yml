@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: logging
+    component: elasticsearch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+      component: elasticsearch
+  template:
+    metadata:
+      name: elasticsearch
+      labels:
+        app: logging
+        component: elasticsearch
+    spec:
+      containers:
+        - image: elasticsearch:7.4.0
+          name: elasticsearch
+          env:
+            - name: ELASTIC_CLUSTER
+              value: "false"
+            - name: CLUSTER_NODE_MASTER
+              value: "true"
+            - name: CLUSTER_MASTER_NODE_NAME
+              value: "es01"
+            - name: discovery.type
+              value: "single-node"
+          volumeMounts:
+            - name: elasticsearch-persistent-storage
+              mountPath: /usr/share/elasticsearch/data
+      volumes:
+        - name: elasticsearch-persistent-storage
+          emptyDir: {}

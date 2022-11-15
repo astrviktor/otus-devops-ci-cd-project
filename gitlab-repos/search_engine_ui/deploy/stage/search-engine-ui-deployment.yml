@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-engine-ui-stage
+  labels:
+    app: search-engine-stage
+    component: search-engine-ui-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-stage
+      component: search-engine-ui-stage
+  template:
+    metadata:
+      name: search-engine-ui-stage
+      labels:
+        app: search-engine-stage
+        component: search-engine-ui-stage
+    spec:
+      containers:
+        - image: <IMAGE> #astrviktor/search_engine_ui:0.1.0
+          name: search-engine-ui-stage
+          env:
+            - name: MONGO
+              value: "mongodb-stage"
+            - name: MONGO_PORT
+              value: "27017"

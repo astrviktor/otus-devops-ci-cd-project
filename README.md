@@ -227,3 +227,13 @@ CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/g
 
 Добавлен репозиторий infra-cli для запуска VM в Yandex Cloud
 
+9. Настроить пайплайны в Gitlab деплоя в Kubernetes
+
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/gitlab-repos/README.md
+
+- Добавлены деплои вспомогательных сервисов в Kubernetes (мониторинг, логирование)
+- Добавлены деплои mongodb и rabbitmq сервисов в Kubernetes
+- Добавлены деплои в пайплайн сборки основных сервисов search_engine_crawler и search_engine_ui
+
+
+

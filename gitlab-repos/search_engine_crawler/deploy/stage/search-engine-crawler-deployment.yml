@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-engine-crawler-stage
+  labels:
+    app: search-engine-stage
+    component: search-engine-crawler-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-stage
+      component: search-engine-crawler-stage
+  template:
+    metadata:
+      name: search-engine-crawler-stage
+      labels:
+        app: search-engine-stage
+        component: search-engine-crawler-stage
+    spec:
+      containers:
+        - image: <IMAGE> #astrviktor/search_engine_crawler:0.1.0
+          name: search-engine-crawler-stage
+          env:
+            - name: MONGO
+              value: "mongodb-stage"
+            - name: MONGO_PORT
+              value: "27017"
+            - name: RMQ_HOST
+              value: "rabbitmq-stage"
+            - name: RMQ_QUEUE
+              value: "queue"
+            - name: RMQ_USERNAME
+              value: "rabbit_user0"
+            - name: RMQ_PASSWORD
+              value: "rabbit_pass0"
+            - name: EXCLUDE_URLS
+              value: ".*github.com"
+            - name: URL
+              value: "https://vitkhab.github.io/search_engine_test_site/"
+

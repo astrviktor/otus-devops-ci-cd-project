@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  labels:
+    app: monitoring
+    component: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitoring
+      component: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: monitoring
+        component: alertmanager
+    spec:
+      containers:
+        - image: prom/alertmanager:v0.21.0
+          name: alertmanager
+          args:
+             - --config.file=/etc/alertmanager/config.yml
+             - --storage.path=/etc/alertmanager/data
+          env:
+            - name: TZ
+              value: "Europe/Moscow"
+          volumeMounts:
+            - name: alertmanager-config
+              mountPath: /etc/alertmanager/config.yml
+              subPath: config.yml
+            - name: alertmanager-data
+              mountPath: /etc/alertmanager/data
+      volumes:
+        - name: alertmanager-config
+          configMap:
+            name: alertmanager-config
+        - name: alertmanager-data
+          emptyDir: {}
+
