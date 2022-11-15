@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-prod
+  labels:
+    app: search-engine-prod
+    component: mongodb-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-prod
+      component: mongodb-prod
+  template:
+    metadata:
+      name: mongodb-prod
+      labels:
+        app: search-engine-prod
+        component: mongodb-prod
+    spec:
+      containers:
+        - image: mongo:3.2
+          name: mongodb
+          volumeMounts:
+            - name: mongodb-prod-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: mongodb-prod-persistent-storage
+          emptyDir: {}

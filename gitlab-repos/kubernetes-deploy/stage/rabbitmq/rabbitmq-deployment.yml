@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-stage
+  labels:
+    app: search-engine-stage
+    component: rabbitmq-stage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-engine-stage
+      component: rabbitmq-stage
+  template:
+    metadata:
+      name: rabbitmq-stage
+      labels:
+        app: search-engine-stage
+        component: rabbitmq-stage
+    spec:
+      containers:
+        - image: rabbitmq:3.11.2-management-alpine
+          name: rabbitmq-stage
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              value: rabbit_user0
+            - name: RABBITMQ_DEFAULT_PASS
+              value: rabbit_pass0
+          volumeMounts:
+            - name: rabbitmq-stage-persistent-storage
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-stage-persistent-storage
+          emptyDir: {}

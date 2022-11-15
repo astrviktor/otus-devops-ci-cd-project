@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-stage
+  labels:
+    app: search-engine-stage
+    component: mongodb-stage
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: search-engine-stage
+    component: mongodb-stage
+

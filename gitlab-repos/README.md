@@ -125,3 +125,63 @@ sh docker_build.sh
 docker login
 docker push astrviktor/yc-cli:latest
 ```
+
+### Создание репозитория kubernetes-deploy для развертывания нужных сервисов
+
+После развертывания VM с Kubernetes нужно добавить в него создание и удаление 
+сервисов для мониторинга и логирования, т.е. в репозитории должно быть все сервисы кроме
+search_engine_crawler и search_engine_ui
+
+
+```
+git clone http://158.160.36.189/astrviktor/kubernetes-deploy.git
+
+Добавляем gitlab-ci.yml
+
+git add .
+git commit -m "Initial commit"
+git push -u origin master
+ 
+```
+
+Столкнулся с проблемой, что сервисы с типом LoadBalancer или Ingress зависают 
+на получении внешнего IP. Но тип NodePort работает хорошо
+
+Значит, нужно будет сделать Yandex Cloud Load Balancer, который прокидывает нужные 
+сервисы на внешний IP (UI_STAGE, UI_PROD, Kibana, Prometheus, Grafana)
+
+Для alertmanager-bot нужно поместить данные для telegram в секреты kubernetes
+
+```
+# Создание секрета
+kubectl create secret generic telegram-admin \
+  -n monitoring \
+  --from-literal telegram-admin=<TELEGRAM_ADMIN>
+
+kubectl create secret generic telegram-token \
+  -n monitoring \
+  --from-literal telegram-token=<TELEGRAM_TOKEN>
+
+# Проверка секрета
+kubectl get secrets -n monitoring
+
+# Использование секрета в манифесте
+- name: TELEGRAM_ADMIN
+  valueFrom:
+    secretKeyRef:
+      name: telegram-admin
+      key: telegram-admin
+- name: TELEGRAM_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: telegram-token
+      key: telegram-token
+
+```
+
+
+
+
+
+
+

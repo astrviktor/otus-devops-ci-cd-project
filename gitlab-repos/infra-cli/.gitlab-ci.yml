@@ -23,7 +23,7 @@ kubernetes-vm-create:
       --memory=8
       --preemptible
       --create-boot-disk image-name=$IMAGE_NAME,size=25GB
-      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4,ipv4-address=192.168.10.20
+      --network-interface subnet-name=app-subnet,ipv4-address=192.168.10.20
       --zone=ru-central1-a
       --metadata serial-port-enable=1
       --metadata ssh-keys="$SSH_KEY_UBUNTU"
@@ -62,7 +62,7 @@ rabbitmq-vm-create:
       --memory=4
       --preemptible
       --create-boot-disk image-name=$IMAGE_NAME,size=20GB
-      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4
+      --network-interface subnet-name=app-subnet,ipv4-address=192.168.10.21
       --zone=ru-central1-a
       --metadata serial-port-enable=1
       --metadata ssh-keys="$SSH_KEY_UBUNTU"
@@ -103,7 +103,7 @@ mongodb-vm-create:
       --memory=4
       --preemptible
       --create-boot-disk image-name=$IMAGE_NAME,size=20GB
-      --network-interface subnet-name=app-subnet,nat-ip-version=ipv4
+      --network-interface subnet-name=app-subnet,ipv4-address=192.168.10.22
       --zone=ru-central1-a
       --metadata serial-port-enable=1
       --metadata ssh-keys="$SSH_KEY_UBUNTU"

@@ -1,0 +1,217 @@
+stages:
+  - STAGE environment
+  - PROD environment
+  - LOGGING environment
+  - MONITORING environment
+  - DELETING
+
+
+#----------------------------
+
+stage-namespace-create:
+  stage: STAGE environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -f ./stage/stage-namespace.yml
+
+
+stage-mongodb-create:
+  stage: STAGE environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n stage -f ./stage/mongodb/
+
+
+stage-rabbitmq-create:
+  stage: STAGE environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n stage -f ./stage/rabbitmq/
+
+
+#----------------------------
+
+prod-namespace-create:
+  stage: PROD environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -f ./prod/prod-namespace.yml
+
+
+prod-mongodb-create:
+  stage: PROD environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n prod -f ./prod/mongodb/
+
+
+prod-rabbitmq-create:
+  stage: PROD environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n prod -f ./prod/rabbitmq/
+
+
+#----------------------------
+
+logging-namespace-create:
+  stage: LOGGING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -f ./logging/logging-namespace.yml
+
+
+logging-fluentd-create:
+  stage: LOGGING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n logging -f ./logging/fluentd/
+
+
+logging-elasticsearch-create:
+  stage: LOGGING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n logging -f ./logging/elasticsearch/
+
+
+logging-kibana-create:
+  stage: LOGGING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n logging -f ./logging/kibana/
+
+#----------------------------
+
+monitoring-namespace-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -f ./monitoring/monitoring-namespace.yml
+
+
+monitoring-prometheus-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n monitoring -f ./monitoring/prometheus/
+
+
+monitoring-node-exporter-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n monitoring -f ./monitoring/node-exporter/
+
+
+monitoring-grafana-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n monitoring -f ./monitoring/grafana/
+
+
+monitoring-alertmanager-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n monitoring -f ./monitoring/alertmanager/
+
+
+monitoring-alertmanager-bot-create:
+  stage: MONITORING environment
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl apply -n monitoring -f ./monitoring/alertmanager-bot/
+
+
+#----------------------------
+
+stage-namespace-delete:
+  stage: DELETING
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl delete -f ./stage/stage-namespace.yml
+
+
+prod-namespace-delete:
+  stage: DELETING
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl delete -f ./prod/prod-namespace.yml
+
+
+logging-namespace-delete:
+  stage: DELETING
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl delete -f ./logging/logging-namespace.yml
+
+
+monitoring-namespace-delete:
+  stage: DELETING
+  image: alpine/k8s:1.25.3
+  when: manual
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - kubectl delete -f ./monitoring/monitoring-namespace.yml
+
+#----------------------------    

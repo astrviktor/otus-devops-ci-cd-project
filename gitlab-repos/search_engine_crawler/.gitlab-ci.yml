@@ -25,35 +25,38 @@ report:
 
 build:
   stage: build
-  image: docker:20.10.16 #docker:19.03.12 docker:latest
+  image: docker:20.10.16
   when: manual
   services:
-    - docker:20.10.16-dind #docker:19.03.12-dind docker:dind
-  #variables:
-  #  DOCKER_HOST: tcp://docker:2375
-  #  DOCKER_TLS_CERTDIR: ""
+    - docker:20.10.16-dind
   before_script:
     - echo -n $DOCKER_REGISTRY_PASS | docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
   script:
-    - docker build -t $DOCKER_REGISTRY_USER/search_engine_crawler:0.0.$CI_PIPELINE_ID .
+    - docker build -t $DOCKER_REGISTRY_USER/search_engine_crawler:$CI_PIPELINE_ID .
     - docker images
-    - docker push $DOCKER_REGISTRY_USER/search_engine_crawler:0.0.$CI_PIPELINE_ID
+    - docker push $DOCKER_REGISTRY_USER/search_engine_crawler:$CI_PIPELINE_ID
 
 
 deploy_stage:
   stage: deploy:stage
-  image: python:3.6-alpine
+  image: alpine/k8s:1.25.3
   when: manual
-  script: echo "Define your deployment script!"
-  environment: stage
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - sed -i -e "s,<IMAGE>,$DOCKER_REGISTRY_USER/search_engine_crawler:$CI_PIPELINE_ID,g" ./deploy/stage/search-engine-crawler-deployment.yml
+    - kubectl apply -n stage -f ./deploy/stage/
 
 
 deploy_prod:
   stage: deploy:prod
-  image: python:3.6-alpine
+  image: alpine/k8s:1.25.3
   when: manual
-  script: echo "Define your deployment script!"
-  environment: prod
+  before_script:
+    - export KUBECONFIG=$KUBECONFIG
+  script:
+    - sed -i -e "s,<IMAGE>,$DOCKER_REGISTRY_USER/search_engine_crawler:$CI_PIPELINE_ID,g" ./deploy/prod/search-engine-crawler-deployment.yml    
+    - kubectl apply -n prod -f ./deploy/prod/
   only:
     refs:
       - tags
