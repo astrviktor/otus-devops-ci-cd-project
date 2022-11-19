@@ -19,7 +19,8 @@ https://github.com/astrviktor/otus-devops-ci-cd-project/blob/gitlab/docs/project
 7. Настроить манифесты для мониторинга и логирования в Kubernetes для проверки локально через Minikube
 8. Настроить пайплайны в Gitlab развертывания инфраструктуры 
 9. Настроить пайплайны в Gitlab деплоя в Kubernetes
-10. Сделать презентацию
+10. Настроить Bastion
+11. Сделать презентацию
 
 
 ### Реализация:
@@ -235,5 +236,11 @@ CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/g
 - Добавлены деплои mongodb и rabbitmq сервисов в Kubernetes
 - Добавлены деплои в пайплайн сборки основных сервисов search_engine_crawler и search_engine_ui
 
+10. Настроить Bastion
 
+CHANGELOG: https://github.com/astrviktor/otus-devops-ci-cd-project/blob/master/bastion/README.md
+
+Добавлен Bastion, удалены внешние IP адреса для безопасности
+
+11. Сделать презентацию - готово
 
